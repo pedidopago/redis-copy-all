@@ -148,6 +148,9 @@ func main() {
 		data, err := srcConn.Dump(ctx, key).Result()
 		if err != nil {
 			fmt.Println("Error dumping key:", key, err)
+			if err == redis.Nil {
+				continue
+			}
 			retryCount++
 			if retryCount < 3 {
 				goto retryKey
