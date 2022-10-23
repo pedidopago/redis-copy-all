@@ -131,7 +131,7 @@ func main() {
 	}
 
 	for i, key := range allKeys {
-		if *skipKey < i {
+		if i < *skipKey {
 			continue
 		}
 		retryCount := 0
