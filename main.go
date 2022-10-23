@@ -27,6 +27,7 @@ var (
 	sourceDatabase      = flag.Int("source-database", 0, "Source database")
 	destinationDatabase = flag.Int("destination-database", 0, "Destination database")
 	dumpData            = flag.String("dump-to-file", "", "Dump data to a file")
+	skipKey             = flag.String("skip", "", "Skip to key")
 )
 
 func loadFromEnv() {
@@ -130,6 +131,10 @@ func main() {
 	}
 
 	for i, key := range allKeys {
+		if *skipKey != "" && key != *skipKey {
+			continue
+		}
+		*skipKey = ""
 		retryCount := 0
 	retryKey:
 		dur, err := srcConn.PTTL(ctx, key).Result()
